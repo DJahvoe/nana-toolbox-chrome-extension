@@ -1,6 +1,9 @@
 # Nana Toolbox Chrome Extension
 > ⚠️ **The extension is currently in development**: Expect unexpected behaviors to occur
 
+*Read this in other languages:*
+- [日本語](https://github.com/DJahvoe/nana-toolbox-chrome-extension/blob/main/README.ja.md) (Thanks for [ju-musiq](https://github.com/ju-musiq))
+
 Chrome extension that is built for easy tooling on Nana Music Platform (like downloading uploaded sounds)
 
 ![download functionality](https://github.com/DJahvoe/nana-toolbox-chrome-extension/blob/main/img/functionality.jpg)
