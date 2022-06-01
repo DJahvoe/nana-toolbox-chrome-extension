@@ -7,6 +7,7 @@
 このChrome拡張機能は、nanaにアップロードされたサウンドをダウンロードする簡単なツールです
 
 ![download functionality](https://github.com/DJahvoe/nana-toolbox-chrome-extension/blob/main/img/functionality.jpg)
+![pop-up functionality](https://github.com/DJahvoe/nana-toolbox-chrome-extension/blob/main/img/small-popup.jpg)
 
 ## 手動でのインストールの仕方 (ローカルマシンの場合)
 1. "CODE"を押すと出てくる"Download ZIP"からダウンロードしてください <br />

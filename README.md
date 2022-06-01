@@ -7,6 +7,7 @@
 Chrome extension that is built for easy tooling on Nana Music Platform (like downloading uploaded sounds)
 
 ![download functionality](https://github.com/DJahvoe/nana-toolbox-chrome-extension/blob/main/img/functionality.jpg)
+![pop-up functionality](https://github.com/DJahvoe/nana-toolbox-chrome-extension/blob/main/img/small-popup.jpg)
 
 ## How to Install It Manually (in Local Machine)
 1. Download the ZIP from this repository <br />
