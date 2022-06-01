@@ -1,6 +1,6 @@
 {
 	"name": "Nana Toolbox",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"description": "Toolbox for Nana Music Application",
 	"permissions": ["scripting", "storage", "tabs"],
 	"host_permissions": ["https://nana-music.com/*"],

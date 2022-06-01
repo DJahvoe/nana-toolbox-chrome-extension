@@ -3,9 +3,7 @@
 		// We just need to inject it once because Nana page is SSR
 		injectScript(chrome.runtime.getURL('injectedScript.js'), 'body');
 
-		chrome.runtime.onMessage.addListener((page, sender, sendResponse) => {
-
-		});
+		chrome.runtime.onMessage.addListener((page, sender, sendResponse) => {});
 
 		window.addEventListener('message', (event) => {
 			// Check if the message is coming from the same page
@@ -31,7 +29,19 @@
 	}
 
 	function onMessageLogicHandler(nanaNuxtData) {
+		setLocalStorage(nanaNuxtData);
 		insertDownloadButton(nanaNuxtData.state.posts.mainPost.sound_url);
+	}
+
+	function setLocalStorage(nanaNuxtData) {
+		const mainUser = nanaNuxtData.state.users?.mainUser;
+		const mainPostUser = nanaNuxtData.state.posts?.mainPost?.user;
+		const user = {
+			userId: mainUser?.user_id || mainPostUser?.user_id,
+			userPicUrl: mainUser?.pic_url || mainPostUser?.pic_url,
+			userScreenName: mainUser?.screen_name || mainPostUser?.screen_name,
+		};
+		chrome.storage.sync.set(user);
 	}
 
 	async function insertDownloadButton(soundUrl) {
