@@ -1,10 +1,16 @@
 (() => {
 	async function replaceNanaNuxtData() {
+		const pathname = window.location.pathname;
+		let page = null;
+		if (pathname.includes('sounds')) page = 'SOUNDS';
+		else if (pathname.includes('users')) page = 'USERS';
 		// Send data to contentScript.js as message payload
-		window.postMessage({
+		const message = {
 			type: 'FROM_PAGE',
+			page,
 			nanaNuxtData: window.__NUXT__,
-		});
+		};
+		window.postMessage(message);
 	}
 
 	function locationChangeHandler() {

@@ -15,7 +15,7 @@
 				if (!(event.data && event.data.nanaNuxtData)) return;
 
 				// Logic
-				onMessageLogicHandler(event.data.nanaNuxtData);
+				onMessageLogicHandler(event);
 			}
 		});
 	}
@@ -28,19 +28,32 @@
 		node.appendChild(script);
 	}
 
-	function onMessageLogicHandler(nanaNuxtData) {
-		setLocalStorage(nanaNuxtData);
+	function onMessageLogicHandler(event) {
+		const nanaNuxtData = event.data.nanaNuxtData;
+		setLocalStorage(nanaNuxtData, event.data.page);
 		insertDownloadButton(nanaNuxtData.state.posts.mainPost.sound_url);
 	}
 
-	function setLocalStorage(nanaNuxtData) {
-		const mainUser = nanaNuxtData.state.users?.mainUser;
-		const mainPostUser = nanaNuxtData.state.posts?.mainPost?.user;
-		const user = {
-			userId: mainUser?.user_id || mainPostUser?.user_id,
-			userPicUrl: mainUser?.pic_url || mainPostUser?.pic_url,
-			userScreenName: mainUser?.screen_name || mainPostUser?.screen_name,
-		};
+	function setLocalStorage(nanaNuxtData, page) {
+		let mainUser,
+			mainPostUser,
+			user = {};
+		if (page === 'USERS') {
+			mainUser = nanaNuxtData.state.users?.mainUser;
+			user = {
+				userId: mainUser?.user_id,
+				userPicUrl: mainUser?.pic_url,
+				userScreenName: mainUser?.screen_name,
+			};
+		} else if (page === 'SOUNDS') {
+			mainPostUser = nanaNuxtData.state.posts?.mainPost?.user;
+			user = {
+				userId: mainPostUser?.user_id,
+				userPicUrl: mainPostUser?.pic_url,
+				userScreenName: mainPostUser?.screen_name,
+			};
+		}
+		console.log(user);
 		chrome.storage.sync.set(user);
 	}
 
