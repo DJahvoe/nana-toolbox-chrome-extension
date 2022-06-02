@@ -41,20 +41,19 @@
 		if (page === 'USERS') {
 			mainUser = nanaNuxtData.state.users?.mainUser;
 			user = {
-				userId: mainUser?.user_id,
-				userPicUrl: mainUser?.pic_url,
-				userScreenName: mainUser?.screen_name,
+				id: mainUser?.user_id,
+				picUrl: mainUser?.pic_url,
+				screenName: mainUser?.screen_name,
 			};
 		} else if (page === 'SOUNDS') {
 			mainPostUser = nanaNuxtData.state.posts?.mainPost?.user;
 			user = {
-				userId: mainPostUser?.user_id,
-				userPicUrl: mainPostUser?.pic_url,
-				userScreenName: mainPostUser?.screen_name,
+				id: mainPostUser?.user_id,
+				picUrl: mainPostUser?.pic_url,
+				screenName: mainPostUser?.screen_name,
 			};
 		}
-		console.log(user);
-		chrome.storage.sync.set(user);
+		chrome.storage.sync.set({ user });
 	}
 
 	async function insertDownloadButton(soundUrl) {
