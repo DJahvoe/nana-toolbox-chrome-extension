@@ -13,29 +13,45 @@ document.addEventListener('DOMContentLoaded', () => {
 			content.style.display = 'block';
 			title.innerText = 'Nana Toolbox';
 
-			const userId = await getStorage('userId');
-			const userPicUrl = await getStorage('userPicUrl');
-			const userScreenName = await getStorage('userScreenName');
-			console.log(userPicUrl);
-			console.log(userScreenName);
-			if (userId) {
+			const user = await getStorage('user');
+			if (user) {
 				// Add user information
 				const userPicDOM = document.querySelector('.user-profile-image img');
-				userPicDOM.src = userPicUrl;
-				userPicDOM.alt = userScreenName;
+				userPicDOM.src = user.picUrl;
+				userPicDOM.alt = user.screenName;
 				const userProfileNameDOM = document.querySelector('.user-profile-name');
-				userProfileNameDOM.innerText = userScreenName;
+				userProfileNameDOM.innerText = user.screenName;
 
 				// Add user sounds
-				const userSounds = await getUserSounds(userId);
+				const userSounds = await getUserSounds(user.id);
 				const soundsHTML = userSounds
 					.map((sound) => soundCardTemplate(sound))
 					.join('');
 				const soundsContainer = document.querySelector('.sounds-container');
 				soundsContainer.innerHTML = soundsHTML;
 
+				// Add click event on card
+				const cardsDOM = document.querySelectorAll('.sound-card');
+				cardsDOM.forEach((card) => {
+					card.addEventListener('click', () => {
+						window.open(card.dataset.player_url, '_blank').focus();
+					});
+				});
+
+				// Stop propagation of click event on download button
+				const downloadButtons = document.querySelectorAll(
+					'.sound-btn-download'
+				);
+				downloadButtons.forEach((button) => {
+					button.addEventListener('click', (e) => {
+						e.stopPropagation();
+					});
+				});
+
 				// Add user statistics
-				const userProfileStatisticsDOM = document.querySelector('.user-profile-statistics');
+				const userProfileStatisticsDOM = document.querySelector(
+					'.user-profile-statistics'
+				);
 				userProfileStatisticsDOM.innerText = `${userSounds.length} sound(s)`;
 
 				// Add search bar functionality
@@ -44,7 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
 					const search = e.target.value.toLowerCase();
 					const sounds = soundsContainer.querySelectorAll('.sound-card');
 					sounds.forEach((sound) => {
-						if (sound.dataset.title.toLowerCase().includes(search)) {
+						const isTitleMatch = sound.dataset.title
+							.toLowerCase()
+							.includes(search);
+						const isArtistMatch = sound.dataset.artist
+							.toLowerCase()
+							.includes(search);
+						if (isTitleMatch || isArtistMatch) {
 							sound.style.display = 'flex';
 						} else {
 							sound.style.display = 'none';
@@ -61,12 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	function soundCardTemplate(sound) {
 		return `
-		<div class="sound-card" data-title="${sound.title}">
+		<div class="sound-card" data-title="${sound.title}" data-artist="${sound.artist}" data-player_url="${sound.player_url}">
 			<div class="sound-description">
 				<p class="sound-title">${sound.title}</p>
 				<p class="sound-artist">${sound.artist}</p>
 			</div>
-			<a id="sound-btn-download" href="${sound.sound_url}" target="_blank">
+			<a class="sound-btn-download" href="${sound.sound_url}" target="_blank">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 					<!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
 					<path
